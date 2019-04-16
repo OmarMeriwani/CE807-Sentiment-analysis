@@ -1,10 +1,48 @@
 import pandas as pd
 import numpy as np
+from nltk.tokenize import sent_tokenize
+from stanfordcorenlp import StanfordCoreNLP
+from nltk.corpus import stopwords
+import nltk
+import os
+#nltk.download('stopwords')
+java_path = "C:/Program Files/Java/jdk1.8.0_161/bin/java.exe"
+os.environ['JAVAHOME'] = java_path
+
+stop_words = stopwords.words('english')
+host='http://localhost'
+port=9000
+scnlp =StanfordCoreNLP(host, port=port,lang='en', timeout=30000)
 
 df = pd.read_csv('train.csv',header=0,sep='\t')
-
+print(stop_words)
+prev = ''
 for i in range(0,len(df)):
-    print(df.loc[i][2])
+    sentence = ''
+    if prev == str(df.loc[i][1]):
+        sentence = df.loc[i][2]
+    else:
+        prev = str(df.loc[i][1])
+        continue
+    POStagged = scnlp.pos_tag(sentence)
+    for p in POStagged:
+        print(p[0])
+'''
+for i in range(0,len(df)):
+    if prev != str(df.loc[i][1]):
+        sentence = df.loc[i][2]
+        prev = str(df.loc[i][1])
+    else:
+        continue
+    sentences = sent_tokenize(sentence)
+    tokens = []
+    for sent in sentences:
+        t = scnlp.word_tokenize(sent)
+        for tk in t:
+            tokens.append(tk)
+    NER = scnlp.ner(sentence)
+    POStagged = scnlp.pos_tag(sentence)'''
+
 
 '''
 Get stopwords

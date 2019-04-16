@@ -1,0 +1,13 @@
+    '''
+    JJ Adjective
+    JJR Adjective, comparative
+    JJS Adjective, superlative
+    RB Adverb (maybe requires stemming)
+    VB Verb, base form
+    VBD Verb, past tense
+    VBG Verb, gerund or present participle
+    VBN Verb, past participle
+    VBP Verb, non­3rd person singular present
+    VBZ Verb, 3rd person singular present
+
+    '''
