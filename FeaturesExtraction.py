@@ -4,30 +4,59 @@ from nltk.tokenize import sent_tokenize
 from stanfordcorenlp import StanfordCoreNLP
 from nltk.corpus import stopwords
 import nltk
+from nltk.tokenize import RegexpTokenizer
 import os
-#nltk.download('stopwords')
+from senticnet.senticnet import SenticNet
+from nltk.stem.porter import *
+
 java_path = "C:/Program Files/Java/jdk1.8.0_161/bin/java.exe"
 os.environ['JAVAHOME'] = java_path
-
-stop_words = stopwords.words('english')
 host='http://localhost'
 port=9000
 scnlp =StanfordCoreNLP(host, port=port,lang='en', timeout=30000)
+stemmer = PorterStemmer()
+
+def SentimentsPolarity(sentence):
+    sn = SenticNet()
+    values = []
+    maxPolarity = 0.0
+    prev = ''
+    for stem in sentence:
+        s = stemmer.stem(stem)
+        try:
+            polarity_value = sn.polarity_intense(s)
+            pv = float(polarity_value)
+            #print(prev)
+            if prev in ['not','no','never']:
+                pv = pv * -1
+            '''sequels not fails makes 0 0 (0.136, 0.943)'''
+            absPolarityVal = abs(pv)
+            if absPolarityVal > abs(float(maxPolarity)):
+                maxPolarity = pv
+            values.append(pv)
+        except Exception as e:
+            prev = s
+            continue
+        prev = s
+    if len(values) == 0:
+        return 0.0
+    avg = float(sum(values) / len(values)).__round__(3)
+    return avg,maxPolarity
+
+
+
+df_pbigrams = pd.read_csv('BigramsPolarity.csv',header=0,sep=',')
+pbigrams = df_pbigrams.values.tolist()
+
+df_punigrams = pd.read_csv('UnigramsPolarity.csv',header=0,sep=',')
+punigrams = df_punigrams.values.tolist()
+
+stop_words = stopwords.words('english')
+stop_words = [s for s in stop_words if s not in ['no', 'not', 'never', 'n’t', 'nt']]
 
 df = pd.read_csv('train.csv',header=0,sep='\t')
-print(stop_words)
 prev = ''
-for i in range(0,len(df)):
-    sentence = ''
-    if prev == str(df.loc[i][1]):
-        sentence = df.loc[i][2]
-    else:
-        prev = str(df.loc[i][1])
-        continue
-    POStagged = scnlp.pos_tag(sentence)
-    for p in POStagged:
-        print(p[0])
-'''
+tknzr = RegexpTokenizer(r'\w+')
 for i in range(0,len(df)):
     if prev != str(df.loc[i][1]):
         sentence = df.loc[i][2]
@@ -37,13 +66,31 @@ for i in range(0,len(df)):
     sentences = sent_tokenize(sentence)
     tokens = []
     for sent in sentences:
-        t = scnlp.word_tokenize(sent)
+        t = tknzr.tokenize(sent)
         for tk in t:
             tokens.append(tk)
     NER = scnlp.ner(sentence)
-    POStagged = scnlp.pos_tag(sentence)'''
-
-
+    POStagged = scnlp.pos_tag(sentence)
+    sentenceClean = ' '.join([str(t).lower() for t in tokens if t not in stop_words])
+    polarity2 = 0
+    for pb in pbigrams:
+        pbigram = pb[1] + ' ' + pb[2]
+        if pbigram in sentenceClean:
+            if pb[3] == 4:
+                polarity2 += 1
+            else:
+                polarity2 -= 1
+    polarity1 = 0
+    for up in punigrams:
+        punigram = str(up[1])
+        if punigram in sentenceClean:
+            if up[2] == 4:
+                polarity1 += 1
+            else:
+                polarity1 -= 1
+    cleanTokens = [str(t).lower() for t in tokens if t not in stop_words]
+    avgAndmaxPol = SentimentsPolarity(cleanTokens)
+    print(sentenceClean, polarity2, polarity1,avgAndmaxPol)
 '''
 Get stopwords
 lowercase
