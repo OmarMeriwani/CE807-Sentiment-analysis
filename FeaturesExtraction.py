@@ -57,6 +57,7 @@ stop_words = [s for s in stop_words if s not in ['no', 'not', 'never', 'n’t', 
 df = pd.read_csv('train.csv',header=0,sep='\t')
 prev = ''
 tknzr = RegexpTokenizer(r'\w+')
+ListOfCleanTokens = []
 for i in range(0,len(df)):
     if prev != str(df.loc[i][1]):
         sentence = df.loc[i][2]
@@ -64,6 +65,7 @@ for i in range(0,len(df)):
     else:
         continue
     sentences = sent_tokenize(sentence)
+    reviewPolarity = int(df.loc[i][3])
     tokens = []
     for sent in sentences:
         t = tknzr.tokenize(sent)
@@ -73,7 +75,7 @@ for i in range(0,len(df)):
     POStagged = scnlp.pos_tag(sentence)
     sentenceClean = ' '.join([str(t).lower() for t in tokens if t not in stop_words])
     polarity2 = 0
-    for pb in pbigrams:
+    '''for pb in pbigrams:
         pbigram = pb[1] + ' ' + pb[2]
         if pbigram in sentenceClean:
             if pb[3] == 4:
@@ -88,9 +90,22 @@ for i in range(0,len(df)):
                 polarity1 += 1
             else:
                 polarity1 -= 1
+    '''
+    normalStopwords = stopwords.words('english')
+
     cleanTokens = [str(t).lower() for t in tokens if t not in stop_words]
-    avgAndmaxPol = SentimentsPolarity(cleanTokens)
-    print(sentenceClean, polarity2, polarity1,avgAndmaxPol)
+    #cleanTokensWithoutNegation = [str(t).lower() for t in tokens if t not in normalStopwords]
+    #cleanTokensWithoutNegation = set(cleanTokensWithoutNegation)
+    #Remove NER and choose specific POS Tags
+    #usefultags = ['JJ','JJR','JJS','RB ','VB ','VBD','VBG','VBN','VBP','VBZ']
+    #cleanTokensWithoutNegation = [t for t in cleanTokensWithoutNegation
+    #                              if t not in
+    #                              [str(n).lower() for n, nrt in NER if str(nrt).lower() != 'o'] and
+    #                              t in [str(word).lower() for word, p in POStagged if p in usefultags ]]
+    #ListOfCleanTokens.append([cleanTokensWithoutNegation, reviewPolarity])
+    #avgAndmaxPol = SentimentsPolarity(cleanTokens)
+    #print(sentenceClean, polarity2, polarity1,avgAndmaxPol)
+
 '''
 Get stopwords
 lowercase
