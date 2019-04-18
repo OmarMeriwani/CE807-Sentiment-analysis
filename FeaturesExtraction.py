@@ -39,7 +39,7 @@ def SentimentsPolarity(sentence):
             continue
         prev = s
     if len(values) == 0:
-        return 0.0
+        return 0.0,maxPolarity
     avg = float(sum(values) / len(values)).__round__(3)
     return avg,maxPolarity
 
@@ -51,6 +51,22 @@ pbigrams = df_pbigrams.values.tolist()
 df_punigrams = pd.read_csv('UnigramsPolarity.csv',header=0,sep=',')
 punigrams = df_punigrams.values.tolist()
 
+df_positiveWords = pd.read_csv('PositiveWords.csv',header=0,sep=',')
+positiveWords = df_positiveWords.values.tolist()
+
+df_negativeWords = pd.read_csv('NegativeWords.csv',header=0,sep=',')
+negativeWords = df_negativeWords.values.tolist()
+
+df_posseq = pd.read_csv('POSTrigrams.csv',header=None,sep=',')
+tgrams = df_posseq.values.tolist()
+
+df_posseq = pd.read_csv('POSQgrams.csv',header=None,sep=',')
+qgrams = df_posseq.values.tolist()
+
+df_posseq = pd.read_csv('POSPgrams.csv',header=None,sep=',')
+pgrams = df_posseq.values.tolist()
+
+
 stop_words = stopwords.words('english')
 stop_words = [s for s in stop_words if s not in ['no', 'not', 'never', 'n’t', 'nt']]
 
@@ -58,6 +74,20 @@ df = pd.read_csv('train.csv',header=0,sep='\t')
 prev = ''
 tknzr = RegexpTokenizer(r'\w+')
 ListOfCleanTokens = []
+
+def getNgram(tags,gram):
+    counter = 0
+    ngrams = []
+    while counter < len(tags):
+        if counter + gram <= len(tags) - 1:
+            temp = []
+            for i in range(counter, counter + gram):
+                temp.append(tags[i])
+            ngrams.append(''.join(temp))
+            counter += 1
+        else:
+            break
+    return ngrams
 for i in range(0,len(df)):
     if prev != str(df.loc[i][1]):
         sentence = df.loc[i][2]
@@ -66,6 +96,7 @@ for i in range(0,len(df)):
         continue
     sentences = sent_tokenize(sentence)
     reviewPolarity = int(df.loc[i][3])
+    POSSEQPolarity = 0
     tokens = []
     for sent in sentences:
         t = tknzr.tokenize(sent)
@@ -73,9 +104,30 @@ for i in range(0,len(df)):
             tokens.append(tk)
     NER = scnlp.ner(sentence)
     POStagged = scnlp.pos_tag(sentence)
+    POSTags = [p for word, p in POStagged]
+    #print(POSTags)
+    POSTriGrams = getNgram(POSTags,3)
+    POSQuadriGrams = getNgram(POSTags,4)
+    POSPentaGrams = getNgram(POSTags,5)
+    POSTriGrams = [p.replace(',','').replace(':','') for p in POSTriGrams]
+    POSPentaGrams = [p.replace(',','').replace(':','') for p in POSPentaGrams]
+    POSQuadriGrams = [p.replace(',','').replace(':','') for p in POSQuadriGrams]
+
+    for possequence, count, pospolarity in tgrams:
+        if possequence in POSTriGrams:
+            POSSEQPolarity += count * pospolarity
+
+    for possequence, count, pospolarity in qgrams:
+        if possequence in POSQuadriGrams:
+            POSSEQPolarity += count * pospolarity
+
+    for possequence, count, pospolarity in pgrams:
+        if possequence in POSPentaGrams:
+            POSSEQPolarity += count * pospolarity
     sentenceClean = ' '.join([str(t).lower() for t in tokens if t not in stop_words])
     polarity2 = 0
-    '''for pb in pbigrams:
+    polarity3 = 0
+    for pb in pbigrams:
         pbigram = pb[1] + ' ' + pb[2]
         if pbigram in sentenceClean:
             if pb[3] == 4:
@@ -90,21 +142,20 @@ for i in range(0,len(df)):
                 polarity1 += 1
             else:
                 polarity1 -= 1
-    '''
+    for pw in positiveWords:
+        if pw[0] in sentenceClean and pw[1] >=5 :
+            polarity3 += 1
+    for nw in negativeWords:
+        if nw[0] in sentenceClean and nw[1] >=5 :
+            polarity3 -= 1
+
     normalStopwords = stopwords.words('english')
 
     cleanTokens = [str(t).lower() for t in tokens if t not in stop_words]
-    #cleanTokensWithoutNegation = [str(t).lower() for t in tokens if t not in normalStopwords]
-    #cleanTokensWithoutNegation = set(cleanTokensWithoutNegation)
-    #Remove NER and choose specific POS Tags
-    #usefultags = ['JJ','JJR','JJS','RB ','VB ','VBD','VBG','VBN','VBP','VBZ']
-    #cleanTokensWithoutNegation = [t for t in cleanTokensWithoutNegation
-    #                              if t not in
-    #                              [str(n).lower() for n, nrt in NER if str(nrt).lower() != 'o'] and
-    #                              t in [str(word).lower() for word, p in POStagged if p in usefultags ]]
-    #ListOfCleanTokens.append([cleanTokensWithoutNegation, reviewPolarity])
-    #avgAndmaxPol = SentimentsPolarity(cleanTokens)
-    #print(sentenceClean, polarity2, polarity1,avgAndmaxPol)
+    avgAndmaxPol = SentimentsPolarity(cleanTokens)
+    print(sentenceClean,reviewPolarity, polarity2, polarity1,avgAndmaxPol[0],avgAndmaxPol[1], polarity3, POSSEQPolarity)
+
+
 
 '''
 Get stopwords
