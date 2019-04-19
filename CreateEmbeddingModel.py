@@ -1,11 +1,5 @@
-from nltk.corpus import stopwords
-import string
 from string import punctuation
 from os import listdir
-from collections import Counter
-from nltk.corpus import stopwords
-from keras.preprocessing.text import Tokenizer
-from keras.preprocessing.sequence import pad_sequences
 from gensim.models import Word2Vec
 
 def load_doc(filename):

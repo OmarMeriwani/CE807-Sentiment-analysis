@@ -88,15 +88,25 @@ def getNgram(tags,gram):
         else:
             break
     return ngrams
+mode = 's'
+results = pd.DataFrame(columns=['phraseID','sentenceID','BigramsPolarity','UnigramsPolarity','SenticnetAVG','senticnetMAX','WordsInScore','POSSequenceScore','y'])
+j = 0
 for i in range(0,len(df)):
-    if prev != str(df.loc[i][1]):
-        sentence = df.loc[i][2]
-        prev = str(df.loc[i][1])
+    if mode != 'all':
+        if prev != str(df.loc[i][1]):
+            sentence = df.loc[i][2]
+            prev = str(df.loc[i][1])
+        else:
+            continue
     else:
-        continue
+        sentence = df.loc[i][2]
+
     sentences = sent_tokenize(sentence)
     reviewPolarity = int(df.loc[i][3])
     POSSEQPolarity = 0
+    phraseID = df.loc[i][0]
+    sentenceID = df.loc[i][1]
+
     tokens = []
     for sent in sentences:
         t = tknzr.tokenize(sent)
@@ -115,15 +125,15 @@ for i in range(0,len(df)):
 
     for possequence, count, pospolarity in tgrams:
         if possequence in POSTriGrams:
-            POSSEQPolarity += count * pospolarity
+            POSSEQPolarity += count * pospolarity * 3
 
     for possequence, count, pospolarity in qgrams:
         if possequence in POSQuadriGrams:
-            POSSEQPolarity += count * pospolarity
+            POSSEQPolarity += count * pospolarity * 4
 
     for possequence, count, pospolarity in pgrams:
         if possequence in POSPentaGrams:
-            POSSEQPolarity += count * pospolarity
+            POSSEQPolarity += count * pospolarity * 5
     sentenceClean = ' '.join([str(t).lower() for t in tokens if t not in stop_words])
     polarity2 = 0
     polarity3 = 0
@@ -153,52 +163,9 @@ for i in range(0,len(df)):
 
     cleanTokens = [str(t).lower() for t in tokens if t not in stop_words]
     avgAndmaxPol = SentimentsPolarity(cleanTokens)
-    print(sentenceClean,reviewPolarity, polarity2, polarity1,avgAndmaxPol[0],avgAndmaxPol[1], polarity3, POSSEQPolarity)
+    r = [ phraseID, sentenceID, polarity2, polarity1,avgAndmaxPol[0],avgAndmaxPol[1], polarity3, POSSEQPolarity, reviewPolarity]
+    results.loc[j] = r
+    print(r)
+    j += 1
+results.to_csv('TrainingDataset.csv')
 
-
-
-'''
-Get stopwords
-lowercase
-Separate sentences
-POS
-Senti
-Negation fixing
-
-
-Get stopwords
-Get full sentence from each row with score
-Remove stop words from each line
-Convert to lower case
-Remove punctuation
-Get 1,2 words with scores
-Build dictionary of 1,2 words with score
-Sentence sentiments:
-    * Get max polarity for each sentence considering negation after removing stop words
-    * Create subj value according to the max polarity
-Store 
--------------------
-After preparing the list:
-Tokenize
-Remove stop words
-Remove punctuation
-Re-do term frequency
-Divide terms/phrases into positive and negative
-Remove the intersecting list between the two lists
-Count the following:
-    * The number of negative/positive in the document
-    * The highest polarity of negative/positive words in the document
-    * Sum of max polarity of document sentences by applying the last step on sentence level
--------------------
-Load word2vec
-Encode sentences
-
-Build CNN
-Get results
-
-Build RNN
-Get results
-
-Use the result as a feature with the best model from above to predict with the statistical model
-
-'''
