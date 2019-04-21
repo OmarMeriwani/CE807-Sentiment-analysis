@@ -1,9 +1,7 @@
-import pandas as pd # provide sql-like data manipulation tools. very handy.
+import pandas as pd
 pd.options.mode.chained_assignment = None
-import numpy as np # high dimensional vector computing library.
+import numpy as np
 from string import punctuation
-from sklearn.preprocessing import scale
-from nltk.stem.snowball import SnowballStemmer
 from nltk.corpus import stopwords
 from sklearn.svm import LinearSVC
 from nltk.stem import WordNetLemmatizer

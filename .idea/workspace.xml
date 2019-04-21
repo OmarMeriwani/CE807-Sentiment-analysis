@@ -11,13 +11,22 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/StatisticalFeatures.py">
+        <entry file="file://$PROJECT_DIR$/tfidfClassifierII.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" selection-end-line="24" selection-end-column="94" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="187">
+              <caret line="11" column="18" lean-forward="true" selection-end-line="196" selection-end-column="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TrainingDataset.csv">
+          <provider editor-type-id="csv-table-editor">
+            <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+          </provider>
+          <provider selected="true" editor-type-id="csv-text-editor">
+            <state>
+              <caret column="92" selection-start-column="80" selection-end-column="92" />
             </state>
           </provider>
         </entry>
@@ -58,39 +67,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/word2vecPredictor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="421">
-              <caret line="217" column="14" selection-start-line="161" selection-end-line="217" selection-end-column="14" />
+            <state relative-caret-position="17">
+              <caret line="189" column="23" lean-forward="true" selection-start-line="189" selection-start-column="23" selection-end-line="189" selection-end-column="23" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/submission2.csv">
-          <provider editor-type-id="csv-table-editor">
-            <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-          </provider>
-          <provider selected="true" editor-type-id="csv-text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/FeaturesExtraction.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="28" selection-end-line="171" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/PolarityUnigramsAndBigram.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
-              <caret line="44" column="98" lean-forward="true" selection-end-line="49" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -174,13 +154,14 @@
         <option value="$PROJECT_DIR$/FeaturesExtraction.py" />
         <option value="$PROJECT_DIR$/embedding2.txt" />
         <option value="$PROJECT_DIR$/tfidfClassifier.py" />
-        <option value="$PROJECT_DIR$/tfidfClassifierII.py" />
         <option value="$PROJECT_DIR$/Prediction.py" />
         <option value="$PROJECT_DIR$/StatisticalFeatures.py" />
         <option value="$PROJECT_DIR$/createVocabulary.py" />
         <option value="$PROJECT_DIR$/CreateEmbeddingModel.py" />
         <option value="$PROJECT_DIR$/Word2vecPredictorII.py" />
         <option value="$PROJECT_DIR$/word2vecPredictor.py" />
+        <option value="$PROJECT_DIR$/tfidfClassifierII.py" />
+        <option value="$PROJECT_DIR$/Feature_extraction.ipynb" />
       </list>
     </option>
   </component>
@@ -507,21 +488,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TrainingDataset.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor">
-        <state>
-          <caret column="93" selection-start-column="93" selection-end-column="93" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2942" column="44" selection-start-line="2942" selection-start-column="44" selection-end-line="2942" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/pandas/core/frame.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="159">
@@ -593,13 +559,6 @@
         <state relative-caret-position="-1126646" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tfidfClassifierII.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="169" column="53" selection-start-line="169" selection-start-column="53" selection-end-line="169" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/submission.csv">
       <provider selected="true" editor-type-id="csv-text-editor">
         <state>
@@ -657,16 +616,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/StatisticalFeatures.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" selection-end-line="24" selection-end-column="94" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/createVocabulary.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -687,6 +636,45 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tfidfClassifierII.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="18" lean-forward="true" selection-end-line="196" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Feature_extraction.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/StatisticalFeatures.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" selection-end-line="24" selection-end-column="94" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TrainingDataset.csv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider selected="true" editor-type-id="csv-text-editor">
+        <state>
+          <caret column="92" selection-start-column="80" selection-end-column="92" />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2942" column="44" selection-start-line="2942" selection-start-column="44" selection-end-line="2942" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Word2vecPredictorII.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-128">
@@ -696,8 +684,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/word2vecPredictor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="421">
-          <caret line="217" column="14" selection-start-line="161" selection-end-line="217" selection-end-column="14" />
+        <state relative-caret-position="17">
+          <caret line="189" column="23" lean-forward="true" selection-start-line="189" selection-start-column="23" selection-end-line="189" selection-end-column="23" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
