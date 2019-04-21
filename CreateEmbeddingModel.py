@@ -1,5 +1,4 @@
 from string import punctuation
-from os import listdir
 from gensim.models import Word2Vec
 import pandas as pd
 
@@ -62,14 +61,9 @@ vocab = load_doc(vocab_filename)
 vocab = vocab.split()
 vocab = set(vocab)
 docs = process_docs2('train.csv',vocab)
-#docs2 = process_docs2('test.csv',vocab)
+
 sentences =  docs
 model = Word2Vec(sentences, window=5, workers=8, min_count=1)
 words = list(model.wv.vocab)
 filename = 'embedding2.txt'
 model.wv.save_word2vec_format(filename, binary=False)
-#tokenizer = Tokenizer()
-#tokenizer.fit_on_texts(train_docs)
-#encoded_docs = tokenizer.texts_to_sequences(train_docs)
-#max_length = max([len(s.split()) for s in train_docs])
-#Xtrain = pad_sequences(encoded_docs, maxlen=max_length, padding='post')

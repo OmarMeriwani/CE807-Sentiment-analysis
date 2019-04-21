@@ -1,11 +1,5 @@
 import pandas as pd
-import numpy as np
-from nltk.tokenize import sent_tokenize
-from stanfordcorenlp import StanfordCoreNLP
 from nltk.corpus import stopwords
-import nltk
-from nltk.tokenize import RegexpTokenizer
-import os
 from collections import Counter
 from string import punctuation
 

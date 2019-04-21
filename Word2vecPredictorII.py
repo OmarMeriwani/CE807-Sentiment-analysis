@@ -1,29 +1,19 @@
-import pandas as pd # provide sql-like data manipulation tools. very handy.
+import pandas as pd
 pd.options.mode.chained_assignment = None
-import numpy as np # high dimensional vector computing library.
-from copy import deepcopy
+import numpy as np
 from string import punctuation
-from random import shuffle
 from sklearn.preprocessing import scale
 import gensim
-from gensim.models.word2vec import Word2Vec # the word2vec model gensim class
-LabeledSentence = gensim.models.doc2vec.LabeledSentence # we'll talk about this down below
-
+from gensim.models.word2vec import Word2Vec
 from tqdm import tqdm
 tqdm.pandas(desc="progress-bar")
-
-from nltk.tokenize import TweetTokenizer # a tweet tokenizer from nltk.
+from nltk.tokenize import TweetTokenizer
 tokenizer = TweetTokenizer()
-
-from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 def load_doc(filename):
-    # open the file as read only
     file = open(filename, 'r')
-    # read all text
     text = file.read()
-    # close the file
     file.close()
     return text
 
@@ -32,12 +22,9 @@ def doc_to_clean_lines(doc, vocab):
     lines = doc.splitlines()
 
     for line in lines:
-        # split into tokens by white space
         tokens = line.split()
-        # remove punctuation from each token
         table = str.maketrans('', '', punctuation)
         tokens = [w.translate(table) for w in tokens]
-        # filter out tokens not in vocab
         tokens = [w for w in tokens if w.lower() in vocab]
         clean_lines = ' '.join(tokens)
     return clean_lines
